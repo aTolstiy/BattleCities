@@ -1,19 +1,17 @@
 #ifndef LEVELLOADER_H
 #define LEVELLOADER_H
 
-#include <QObject>
 #include <QFile>
 #include <QDebug>
 #include <QSettings>
 
 #include <Level.h>
 
-class LevelLoader : public QObject
+class LevelLoader
 {
-    Q_OBJECT
 public:
-    explicit LevelLoader(QObject *parent = 0);
-    void loadLevel(int);
+    explicit LevelLoader();
+    Level loadLevel(int);
 private:
     QString mapSettingsFile;
 

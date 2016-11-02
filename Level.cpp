@@ -1,23 +1,32 @@
 #include "Level.h"
 
-Level::Level(QObject *parent) : QObject(parent)
+Level::Level()
 {
-    mapHeight = 0;
-    mapWidth = 0;
+    qDebug() << "def ctr";
 }
 
-void Level::setMapWidth(int)
+Level::Level(int height, int width, QVector<int> loadedMap):mapHeight(height), mapWidth(width), map(loadedMap)
 {
-
+    qDebug() << "int int qvect ctr";
 }
 
-void Level::setMapHeight(int)
+Level::Level(const Level &other):
+      mapHeight(other.mapHeight),
+      mapWidth(other.mapWidth),
+      map(other.map)
 {
-
 }
 
-void Level::setMapElement(int x, int y, int value)
+int Level::getWidth(void) const
 {
-
+    return mapWidth;
+}
+int Level::getHeight(void) const
+{
+    return mapHeight;
 }
 
+QVector<int> Level::getMap(void) const
+{
+    return map;
+}
