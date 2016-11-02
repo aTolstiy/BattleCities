@@ -1,0 +1,10 @@
+<RCC>
+    <qresource>
+        <file>images/basePlayerOne.png</file>
+        <file>images/brick.png</file>
+		<file>images/brickBig.png</file>
+		<file>images/playerOne1.png</file>
+		<file>images/bullet.png</file>
+		<file>config.ini</file>
+    </qresource>
+</RCC>

@@ -1,13 +1,19 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick\
+      widgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
     LevelLoader.cpp \
-    Level.cpp
+    Level.cpp \
+    Game.cpp \
+    GameObject.cpp \
+    Bullet.cpp \
+    Tank.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    BattleCity.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -17,5 +23,9 @@ include(deployment.pri)
 
 HEADERS += \
     LevelLoader.h \
-    Level.h
+    Level.h \
+    Game.h \
+    GameObject.h \
+    Bullet.h \
+    Tank.h
 

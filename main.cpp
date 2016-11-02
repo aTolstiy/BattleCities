@@ -1,22 +1,26 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+//#include <QGuiApplication>
+//#include <QQmlApplicationEngine>
+#include <QApplication>
+
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include <LevelLoader.h>
+#include <Level.h>
+#include <game.h>
+
+void drawLevel(Level);
 
 const int LEVEL_1 = 1;
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    //QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-    //QQmlApplicationEngine engine;
-    //engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    qDebug() << "started";
+    Game game;
 
-
-    LevelLoader levelLoader;// = LevelLoader();
-    levelLoader.loadLevel(LEVEL_1);
-
+    qDebug() << "App path : " << app.applicationDirPath();
 
     return app.exec();
 }
