@@ -30,3 +30,13 @@ QVector<int> Level::getMap(void) const
 {
     return map;
 }
+
+void Level::addEnemySpawnPoint(uint spawnPosition)
+{
+    enemySpawnPoints.append(spawnPosition);
+}
+
+QVector<int> Level::getEnemySpawnPoints() const
+{
+    return enemySpawnPoints;
+}

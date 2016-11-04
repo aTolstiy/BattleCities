@@ -11,6 +11,7 @@ public:
    GameObject();
    GameObject(const uint);
    GameObject(const GameObject&);
+   uint getObjectType() const;
    virtual ~GameObject();
 protected:
     uint objectType; // collision detection

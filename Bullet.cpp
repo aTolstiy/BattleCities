@@ -5,11 +5,6 @@ Bullet::Bullet()
 
 }
 
-Bullet::Bullet(int)
-{
-
-}
-
 Bullet::~Bullet()
 {
 }
