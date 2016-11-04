@@ -10,7 +10,11 @@ SOURCES += main.cpp \
     Game.cpp \
     GameObject.cpp \
     Bullet.cpp \
-    Tank.cpp
+    Tank.cpp \
+    Brick.cpp \
+    Goblet.cpp \
+    Steelblock.cpp \
+    PlayerTank.cpp
 
 RESOURCES += qml.qrc \
     BattleCity.qrc
@@ -27,5 +31,9 @@ HEADERS += \
     Game.h \
     GameObject.h \
     Bullet.h \
-    Tank.h
+    Tank.h \
+    Brick.h \
+    Goblet.h \
+    Steelblock.h \
+    PlayerTank.h
 

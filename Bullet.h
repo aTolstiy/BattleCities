@@ -6,7 +6,6 @@ class Bullet : public GameObject
 {
 public:
     Bullet();
-    Bullet(int);
     ~Bullet();
 };
 

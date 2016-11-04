@@ -9,7 +9,7 @@ GameObject::GameObject()
 GameObject::GameObject(const uint picId)
     : objectType(picId)
 {
-    switch (picId)
+    /*switch (picId)
     {
     case (Level::TILE_EMPTY)://empty tile
         qDebug() << "empty";
@@ -36,10 +36,16 @@ GameObject::GameObject(const uint picId)
     default:
         qDebug("incorrect value in config");
     }
+    */
 }
 
 GameObject::GameObject(const GameObject& obj):objectType(obj.objectType)
 {
+}
+
+uint GameObject::getObjectType() const
+{
+    return objectType;
 }
 
 GameObject::~GameObject()

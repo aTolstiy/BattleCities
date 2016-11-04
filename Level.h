@@ -12,8 +12,11 @@ public:
     Level(int,int,QVector<int>);
     Level(const Level &);
     QVector<int> getMap(void) const;
+    QVector<int> getEnemySpawnPoints(void) const;
+    void addEnemySpawnPoint(uint);
     int getHeight(void) const;
     int getWidth(void) const;
+    //change this to enum
     //0 empty field; 1 brick wall; 2 steel wall; 3 player1 spawn loc; 4 player2 spawn loc; 5 goblet; 6 enemy spawn loc;
     static const uint TILE_EMPTY = 0;
     static const uint TILE_BRICK = 1;
@@ -25,9 +28,8 @@ public:
 private:
     int mapHeight, mapWidth;
     QVector<int> map;
-
+    QVector<int> enemySpawnPoints;
 signals:
-
 public slots:
 };
 
