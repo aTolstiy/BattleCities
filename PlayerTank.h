@@ -10,6 +10,7 @@ class PlayerTank :  public Tank
 public:
 
     PlayerTank();
+    PlayerTank(uint);
 };
 
 #endif // PLAYERTANK_H

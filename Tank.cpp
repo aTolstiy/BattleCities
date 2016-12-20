@@ -5,12 +5,46 @@ Tank::Tank()
 
 }
 
-Tank::Tank(uint tankType)
+Tank::Tank(uint tankType):GameObject(tankType)
 {
     if (tankType == Level::PLAYER1_SPAWN)
     {
-        setPixmap(QPixmap(":/images/playerOne1.png"));
         //default player health, may change to const/enum
         healthPoints = 3;
+        setOrientation(up);
     }
+    else if (tankType == Level::ENEMY_SPAWN)
+    {
+        healthPoints = 1;
+        setOrientation(down);
+    }
+}
+
+void Tank::setOrientation(uint newOrient)
+{
+    orientation = newOrient;
+    setTransformOriginPoint(boundingRect().center());
+    setRotation(0);
+    switch(newOrient)
+    {
+    case up:
+        //do nothing
+        break;
+    case down:
+        setRotation(180);
+        break;
+    case left:
+        setRotation(-90);
+        break;
+    case right:
+        setRotation(90);
+        break;
+    default:
+        qDebug() << "uknown rotation direction";
+    }
+}
+
+uint Tank::getOrientation(void)
+{
+    return orientation;
 }

@@ -11,10 +11,12 @@
 #include <Goblet.h>
 #include <Steelblock.h>
 #include <Tank.h>
+#include <Bullet.h>
 #include <PlayerTank.h>
 #include <QKeyEvent>
+#include <QTimer>
 
-class Game
+class Game : public QGraphicsScene
 {
 public:
     Game();
@@ -27,10 +29,15 @@ private:
     GameObject * createObject(uint);
     LevelLoader levelLoader;
     Level currentLevel;
-    QGraphicsScene scene;
     QGraphicsView view;
     QVector<GameObject*> objects;
-    GameObject * player1Tank = nullptr;
+    QVector<Bullet*> bullets;
+    //GameObject * player1Tank = nullptr;
+    PlayerTank * player1Tank = nullptr;
+    void processCollisions();
+    QTimer * bulletTimer;
+private slots:
+    void onBulletTimeout();
 };
 
 #endif // GAME_H

@@ -2,9 +2,17 @@
 
 PlayerTank::PlayerTank()
 {
-    setPixmap(QPixmap(":/images/playerOne1.png"));
-    //default player health, may change to const/enum
-    healthPoints = 3;
-
 }
+
+PlayerTank::PlayerTank(uint tankType):Tank(tankType)
+{
+    if (tankType == Level::PLAYER1_SPAWN)
+    {
+        //setPixmap(QPixmap(":/images/playerOne1.png"));
+        setPixmap(QPixmap(":/images/playerOne32.png"));
+        //default player health, may change to const/enum
+        healthPoints = 3;
+    }
+}
+
 

@@ -15,7 +15,6 @@ const int LEVEL_1 = 1;
 
 int main(int argc, char *argv[])
 {
-    //QGuiApplication app(argc, argv);
     QApplication app(argc, argv);
 
     Game game;
