@@ -21,5 +21,5 @@ uint GameObject::getObjectType() const
 
 GameObject::~GameObject()
 {
-
 }
+

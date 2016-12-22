@@ -20,6 +20,7 @@ class Game : public QGraphicsScene
 {
 public:
     Game();
+    ~Game();
     static const int LEVEL_1 = 1;
     Level loadLevel(uint);
     void drawLevel(Level&);
@@ -34,10 +35,12 @@ private:
     QVector<Bullet*> bullets;
     //GameObject * player1Tank = nullptr;
     PlayerTank * player1Tank = nullptr;
-    void processCollisions();
     QTimer * bulletTimer;
+    QTimer * spawnTimer;
+    uint tanksSpawned = 0;
 private slots:
     void onBulletTimeout();
+    void onSpawnTimeout();
 };
 
 #endif // GAME_H

@@ -24,7 +24,7 @@ void Bullet::setDirection(uint direction)
     setRotation(0);
     switch(direction)
     {
-    //make separate enum for bullet class
+    //TODO: move to GameObject class
     case Tank::up:
         //do nothing
         break;
