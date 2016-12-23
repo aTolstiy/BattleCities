@@ -3,6 +3,8 @@
 
 #include <QGraphicsPixmapItem>
 #include <Level.h>
+#include <QTimer>
+#include <QObject>
 
 
 class GameObject: public QGraphicsPixmapItem

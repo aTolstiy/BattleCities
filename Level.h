@@ -1,7 +1,6 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include <QObject>
 #include <QVector>
 #include <QDebug>
 
@@ -25,6 +24,7 @@ public:
     static const uint PLAYER2_SPAWN = 4;
     static const uint GOBLET = 5;
     static const uint ENEMY_SPAWN = 6;
+    static const uint TANK = 7;//move to separate enum
     static const uint BULLET = 10;
 private:
     int mapHeight, mapWidth;
