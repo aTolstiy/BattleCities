@@ -20,6 +20,7 @@ class Game : public QGraphicsScene
 {
 public:
     Game();
+    ~Game();
     static const int LEVEL_1 = 1;
     Level loadLevel(uint);
     void drawLevel(Level&);
@@ -32,12 +33,17 @@ private:
     QGraphicsView view;
     QVector<GameObject*> objects;
     QVector<Bullet*> bullets;
+    QVector<GameObject*> tanks;
     //GameObject * player1Tank = nullptr;
     PlayerTank * player1Tank = nullptr;
-    void processCollisions();
     QTimer * bulletTimer;
+    QTimer * spawnTimer;
+    QTimer * AIControlTimer;
+    uint tanksSpawned = 0;
 private slots:
     void onBulletTimeout();
+    void onSpawnTimeout();
+    void onAIControlTimeout();
 };
 
 #endif // GAME_H

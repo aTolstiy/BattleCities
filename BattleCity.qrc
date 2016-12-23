@@ -7,6 +7,7 @@
 		<file>images/bullet.png</file>
 		<file>images/steel.png</file>
 		<file>images/playerOne32.png</file>
+		<file>images/playerAI_1.gif</file>
 		<file>config.ini</file>
     </qresource>
 </RCC>

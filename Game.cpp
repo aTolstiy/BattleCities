@@ -9,8 +9,22 @@ Game::Game()
     bulletTimer = new QTimer();
     bulletTimer->setInterval(30);
     bulletTimer->setSingleShot(false);
+    spawnTimer = new QTimer();
+    spawnTimer->setInterval(5000);
+    spawnTimer->setSingleShot(false);
+    AIControlTimer = new QTimer();
+    AIControlTimer->setInterval(200);
+    AIControlTimer->setSingleShot(false);
 
-    connect(bulletTimer, &QTimer::timeout, [this] () { onBulletTimeout(); });
+    connect(bulletTimer,    &QTimer::timeout, [this]() {onBulletTimeout();   });
+    connect(spawnTimer,     &QTimer::timeout, [this]() {onSpawnTimeout();    });
+    connect(AIControlTimer, &QTimer::timeout, [this]() {onAIControlTimeout();});
+    spawnTimer->start();
+}
+
+Game::~Game()
+{
+    delete bulletTimer;
 }
 
 Level Game::loadLevel(uint Id)
@@ -46,18 +60,13 @@ void Game::drawLevel(Level & level)
 
 void Game::initViewScene(void)
 {
-    //view.setScene(&scene);
     view.setScene(this);
     view.setFixedSize(640, 480);
-    //scene.setBackgroundBrush(Qt::black);
     setBackgroundBrush(Qt::black);
-    //scene.setSceneRect(0,0, 640, 480);
     setSceneRect(0,0, 640, 480);
-    //view.fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
     view.fitInView(sceneRect(), Qt::KeepAspectRatio);
     view.show();
     view.setFocusPolicy(Qt::StrongFocus);//remove me
-    //scene.setFocus();
     setFocus();
 
 }
@@ -98,6 +107,7 @@ void Game::keyPressEvent(QKeyEvent * event)
                         switch(gameObj->getObjectType())
                         {
                         case Level::TILE_BRICK:
+                        case Level::TANK:
                         case Level::TILE_STEEL:
                         case Level::GOBLET:
                             player1Tank->setPos(initialPos);
@@ -111,28 +121,6 @@ void Game::keyPressEvent(QKeyEvent * event)
                 {
                     player1Tank->setOrientation(PlayerTank::left);
                 }
-                /*foreach(GameObject *obj, objects)
-                {
-                    qDebug() << player1Tank->collidingItems().length();
-                    //if(obj->collidesWithItem(player1Tank, Qt::IntersectsItemBoundingRect))// && !obj->getObjectType() == 3)
-                    if(player1Tank->collidingItems())
-                    {
-                        if(obj->getObjectType() == 3)//it's my tank
-                        {
-                            qDebug() << "it's my tank";
-                        }
-                        else
-                        {
-                            qDebug() << "nah, it's something else";
-                            player1Tank->setPos(initialPos);
-                        }
-
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }*/
             }
         }
         else if (event->key() == Qt::Key_Right)
@@ -154,6 +142,7 @@ void Game::keyPressEvent(QKeyEvent * event)
                         switch(gameObj->getObjectType())
                         {
                         case Level::TILE_BRICK:
+                        case Level::TANK:
                         case Level::TILE_STEEL:
                         case Level::GOBLET:
                             player1Tank->setPos(initialPos);
@@ -188,6 +177,7 @@ void Game::keyPressEvent(QKeyEvent * event)
                         switch(gameObj->getObjectType())
                         {
                         case Level::TILE_BRICK:
+                        case Level::TANK:
                         case Level::TILE_STEEL:
                         case Level::GOBLET:
                             player1Tank->setPos(initialPos);
@@ -222,6 +212,7 @@ void Game::keyPressEvent(QKeyEvent * event)
                         switch(gameObj->getObjectType())
                         {
                         case Level::TILE_BRICK:
+                        case Level::TANK:
                         case Level::TILE_STEEL:
                         case Level::GOBLET:
                             player1Tank->setPos(initialPos);
@@ -302,6 +293,11 @@ GameObject* Game::createObject(uint type)
         player1Tank = static_cast<PlayerTank*>(newObject);
     }
         break;
+    case Level::TANK:
+    {   Tank * tank = new Tank(type);
+        newObject = static_cast<GameObject*>(tank);
+    }
+        break;
     case Level::BULLET:
     {
         Bullet * bullet = new Bullet();
@@ -317,11 +313,6 @@ GameObject* Game::createObject(uint type)
         addItem(newObject);
     }
     return newObject;
-}
-
-void Game::processCollisions()
-{
-
 }
 
 void Game::onBulletTimeout()
@@ -360,31 +351,46 @@ void Game::onBulletTimeout()
             }
             else
             {
-                if (bullet->collidingItems().length() == 1)
+                qDebug() << "number of colliding items beside bullet: " << bullet->collidingItems().length();
                 {
-                    GameObject * collidingItem;
-                    collidingItem = static_cast<GameObject*>(bullet->collidingItems()[0]);
-                    switch(collidingItem->getObjectType())
+                    //while(bullet->collidingItems().length())
+                    for (int i = 0; i < bullet->collidingItems().length(); i++)
                     {
-                        case Level::TILE_STEEL:
+                        qDebug() << "number of colliding items: " << bullet->collidingItems().length();
+                        GameObject * collidingItem = static_cast<GameObject*>(bullet->collidingItems()[0]);
+                        switch(collidingItem->getObjectType())
                         {
-                            //launch animation and delete bullet only
+                            case Level::TILE_STEEL:
+                            {
+                                //launch animation and delete bullet only
+                                break;
+                            }
+                            break;
+                            case Level::TILE_BRICK:
+                            {
+                                objects.removeOne(collidingItem);
+                                delete collidingItem;//guess this need to be moved to separate function for animation&health calculations
+                                i--;
+                                break;
+                            }
+                            case Level::BULLET:
+                            {
+                                  qDebug() << "bad";
+                            }
+                            case Level::TANK:
+                            {
+                                //launch explosion animation and delete both of items
+                                //objects.removeOne(collidingItem);
+                                qDebug() << objects.removeOne(collidingItem);
+                                //tanks.removeOne(collidingItem);
+                                qDebug() << tanks.removeOne(collidingItem);
+                                delete collidingItem;//guess this need to be moved to separate function for animation&health calculations
+                                i--;//wtf, change this to while
+                            }
+                            break;
                         }
-                        break;
-                        case Level::TILE_BRICK:
-                        case Level::BULLET:
-                        {
-                            //launch explosion animation and delete both of items
-                        }
-                        break;
                     }
                 }
-                else
-                {
-                    //for each
-                    qDebug() << "more than 1 object";
-                }
-
                 delete bullet;
                 it = bullets.erase(it);
                 continue;
@@ -394,3 +400,77 @@ void Game::onBulletTimeout()
     }
 }
 
+void Game::onSpawnTimeout()
+{
+    if (tanksSpawned < 20)
+    {
+        //check if ! intersects with existing tank
+        GameObject * enemyTank = createObject(Level::TANK);
+        auto spawnPointLoc = currentLevel.getEnemySpawnPoints()[qrand()%currentLevel.getEnemySpawnPoints().length()];
+        enemyTank->setPos((((spawnPointLoc)%currentLevel.getWidth())*16 + enemyTank->boundingRect().width()), (((spawnPointLoc)/currentLevel.getWidth())*16) + enemyTank->boundingRect().height());
+        if (enemyTank->collidingItems().length())
+        {
+            objects.removeOne(enemyTank);
+            delete enemyTank;
+        }
+        else
+        {
+            //objects.append(enemyTank);
+            tanks.append(static_cast<Tank*>(enemyTank));
+            tanksSpawned++;
+            if(!AIControlTimer->isActive())
+            {
+                AIControlTimer->start();
+            }
+        }
+    }
+    else
+    {
+        spawnTimer->stop();
+    }
+}
+
+void Game::onAIControlTimeout()
+{
+    qDebug() << "aiTimer, tanks.length(): " << tanks.length();
+    if (tanks.length())
+    {
+        for (int i = 0; i < tanks.length(); i++)
+        {
+            qDebug() << qrand()%5;
+            switch(qrand()%5)
+            {
+            case 0:
+            {
+                qDebug() << "move up";
+                break;
+            }
+            case 1:
+            {
+                qDebug() << "move right";
+                break;
+            }
+            case 2:
+            {
+                qDebug() << "move down";
+                break;
+            }
+            case 3:
+            {
+                qDebug() << "move left";
+                break;
+            }
+            case 4:
+            {
+                qDebug() << "fire";
+                break;
+            }
+                default:
+            {
+                qDebug() << "dfq";
+            }
+            }
+            //tanks[0]
+        }
+    }
+}

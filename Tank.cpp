@@ -13,10 +13,11 @@ Tank::Tank(uint tankType):GameObject(tankType)
         healthPoints = 3;
         setOrientation(up);
     }
-    else if (tankType == Level::ENEMY_SPAWN)
+    else if (tankType == Level::TANK)
     {
         healthPoints = 1;
         setOrientation(down);
+        setPixmap(QPixmap(":/images/playerAI_1.gif"));
     }
 }
 
@@ -47,4 +48,9 @@ void Tank::setOrientation(uint newOrient)
 uint Tank::getOrientation(void)
 {
     return orientation;
+}
+
+void Tank::giveOrder(uint order)
+{
+    hasOrder = true;
 }
