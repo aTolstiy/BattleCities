@@ -50,7 +50,8 @@ uint Tank::getOrientation(void)
     return orientation;
 }
 
-void Tank::giveOrder(uint order)
+void Tank::giveOrder(Order newOrder)
 {
     hasOrder = true;
+    order = newOrder;
 }

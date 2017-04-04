@@ -12,12 +12,13 @@ public:
     enum Order {moveUP, moveRIGHT, moveDOWN, moveLEFT, fire};
     void setOrientation(uint const);
     uint getOrientation(void);
-    void giveOrder(uint);
+    void giveOrder(Order);
 protected:
     uint healthPoints = 1;
     uint orientation = down;
 private:
     bool hasOrder = false;
+    Order order;
 };
 
 #endif // TANK_H

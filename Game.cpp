@@ -317,6 +317,7 @@ GameObject* Game::createObject(uint type)
 
 void Game::onBulletTimeout()
 {
+    qDebug() << bullets.length() << "bullets";
     if (bullets.isEmpty())
     {
         bulletTimer->stop();
@@ -376,6 +377,7 @@ void Game::onBulletTimeout()
                             case Level::BULLET:
                             {
                                   qDebug() << "bad";
+                                  break;
                             }
                             case Level::TANK:
                             {
@@ -415,7 +417,6 @@ void Game::onSpawnTimeout()
         }
         else
         {
-            //objects.append(enemyTank);
             tanks.append(static_cast<Tank*>(enemyTank));
             tanksSpawned++;
             if(!AIControlTimer->isActive())
@@ -437,40 +438,36 @@ void Game::onAIControlTimeout()
     {
         for (int i = 0; i < tanks.length(); i++)
         {
-            qDebug() << qrand()%5;
-            switch(qrand()%5)
+            Tank * currentTank =  static_cast<Tank*>(tanks[i]);
+            //auto order = (qrand()%5);
+            switch((qrand()%5))
             {
-            case 0:
+            case (0):
             {
-                qDebug() << "move up";
+                currentTank->giveOrder(Tank::Order::moveUP);
                 break;
             }
-            case 1:
+            case (1):
             {
-                qDebug() << "move right";
+                currentTank->giveOrder(Tank::Order::moveRIGHT);
                 break;
             }
-            case 2:
+            case (2):
             {
-                qDebug() << "move down";
+                currentTank->giveOrder(Tank::Order::moveDOWN);
                 break;
             }
-            case 3:
+            case (3):
             {
-                qDebug() << "move left";
+                currentTank->giveOrder(Tank::Order::moveLEFT);
                 break;
             }
-            case 4:
+            case (4):
             {
-                qDebug() << "fire";
+                currentTank->giveOrder(Tank::Order::fire);
                 break;
             }
-                default:
-            {
-                qDebug() << "dfq";
             }
-            }
-            //tanks[0]
         }
     }
 }
